@@ -1,0 +1,280 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 	
+	<!-- 
+		描述：上海径横网络科技有限公司
+		网址：www.didong100.com
+		项目：递咚系统管理平台-门户系统
+	-->
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.didong.portals</groupId>
+	<artifactId>portals-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java-version>1.7</java-version>
+		<java-encoding>UTF-8</java-encoding>
+		<slf4j-version>1.6.1</slf4j-version>
+		<didongframe-version>0.0.1-SNAPSHOT</didongframe-version>
+	</properties>
+	
+	<!-- load-common-tool-jar-start -->
+	<dependencies>
+		
+		<!-- logging BEGIN -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j-version}</version>
+		</dependency>
+		<!-- logging end -->
+		
+		<!-- common lib begin -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.5</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.6</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.5.6</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbutils</groupId>
+			<artifactId>commons-dbutils</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.8.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<!-- common lib end -->
+		
+	</dependencies>
+	<!-- load-common-tool-jar-end -->
+	
+	<dependencyManagement>
+		
+		<dependencies>
+		
+			<!-- load-framework-jar-start -->
+			<dependency>
+				<groupId>com.didong.manager</groupId>
+				<artifactId>manager-frame-api</artifactId>
+				<version>${didongframe-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.didong.manager</groupId>
+				<artifactId>manager-frame-cache</artifactId>
+				<version>${didongframe-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.didong.manager</groupId>
+				<artifactId>manager-frame-core</artifactId>
+				<version>${didongframe-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.didong.manager</groupId>
+				<artifactId>manager-frame-datasource</artifactId>
+				<version>${didongframe-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.didong.manager</groupId>
+				<artifactId>manager-frame-email</artifactId>
+				<version>${didongframe-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.didong.manager</groupId>
+				<artifactId>manager-frame-mongo</artifactId>
+				<version>${didongframe-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.didong.manager</groupId>
+				<artifactId>manager-frame-qrcode</artifactId>
+				<version>${didongframe-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.didong.manager</groupId>
+				<artifactId>manager-frame-quartz</artifactId>
+				<version>${didongframe-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.didong.manager</groupId>
+				<artifactId>manager-frame-servdao</artifactId>
+				<version>${didongframe-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.didong.manager</groupId>
+				<artifactId>manager-frame-springmvc</artifactId>
+				<version>${didongframe-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.didong.manager</groupId>
+				<artifactId>manager-frame-tool</artifactId>
+				<version>${didongframe-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.didong.manager</groupId>
+				<artifactId>manager-frame-weixin</artifactId>
+				<version>${didongframe-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.didong.manager</groupId>
+				<artifactId>manager-frame-zk</artifactId>
+				<version>${didongframe-version}</version>
+			</dependency>
+			<!-- load-framework-jar-end -->
+			
+			<!-- server lib-start -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jsp-api</artifactId>
+				<version>2.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<!-- server lib-end -->
+		
+		</dependencies>
+	
+	</dependencyManagement>
+	
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.tomcat.maven</groupId>  
+					<artifactId>tomcat7-maven-plugin</artifactId>  
+					<version>2.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<attach>true</attach>
+					<encoding>UTF-8</encoding>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>${java-version}</source>
+					<target>${java-version}</target>
+					<encoding>${java-encoding}</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+	
+	<!-- Maven打包上传到私服关键配置 -->
+<!-- 	<distributionManagement> -->
+<!-- 		<repository> -->
+<!-- 			<id>releases</id> -->
+<!-- 			<url>http://43.254.53.21:8989/nexus/content/repositories/releases</url> -->
+<!-- 		</repository> -->
+<!-- 		<snapshotRepository> -->
+<!-- 			<id>snapshots</id> -->
+<!-- 			<url>http://43.254.53.21:8989/nexus/content/repositories/snapshots</url> -->
+<!-- 		</snapshotRepository> -->
+<!-- 	</distributionManagement> -->
+	
+	<modules>
+		<module>portals-common</module>
+		<module>portals-service</module>
+		<module>portals-web</module>
+	</modules>
+	
+</project>

@@ -1,0 +1,40 @@
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="statics/css/common/chosetable.css">
+		<script type="text/javascript" src="${contentPath}statics/style/jquery.min.js"></script>
+	</head>
+	<body>
+	   <#if orderGoodsList ??>
+		   <table style='margin-top:10px;margin-left:20px;'>
+		       <tbody id='pop_tbody'>
+		           <tr>
+		               <th>商品名称</th>
+		               <th>商品类型</th>
+		               <th>商品价格</th>
+		           </tr>
+		           
+		           <#list orderGoodsList as orderGoods>
+		           
+		           <tr>
+		               <th>${orderGoods.goodsName}</th>
+		               <th>${orderGoods.goodsType}</th>
+		               <th>${orderGoods.goodsPrice}</th>
+		           </tr>
+		           
+		           </#list>
+		           
+		       </tbody>
+		   </table>
+	   <#else>
+			error
+	   </#if>
+						
+	</body>
+</html>
+
+<script>
+ $("#queding_nav").html("关闭");
+</script>
+

@@ -1,0 +1,37 @@
+<#macro zui_common_head>
+	<meta charset="utf-8">
+    <title>叮咚餐厅后台管理系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<link rel="icon" href="statics/images/common/icon/didong_logo.ico" mce_href="statics/images/common/icon/didong_logo.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="statics/images/common/icon/didong_logo.ico" mce_href="statics/images/common/icon/didong_logo.ico" type="image/x-icon">
+	<!-- CSS -->
+<!-- 	<link rel="stylesheet" type="text/css" href="http://statics.didong100.com/styles/common/common.css"> -->
+	<link rel="stylesheet" type="text/css" href="${contentPath}/statics/css/module/user/login.css">
+	<!-- JS-File -->
+<!-- 	<script type="text/javascript" src="http://statics.didong100.com/scripts/plugin/jquery/1.11.3/jquery.min.js"></script> -->
+	<script type="text/javascript" src="${contentPath}statics/style/jquery.min.js"></script>
+	<script type="text/javascript" src="${contentPath}scripts/common/reglogin.js"></script>
+<!-- 	<script type="text/javascript" src="${contentPath}/scripts/common/frame-1.1.js"></script> -->
+	
+	<!-- etw -->
+<!--     <link rel="stylesheet" type="text/css" href="http://statics.didong100.com/scripts/plugin/etw/1.5/css/etw.css" /> -->
+<!--     <script type="text/javascript" src="http://statics.didong100.com/scripts/plugin/etw/1.5/js/etw.js"></script> -->
+    <!-- common -->
+    <script type="text/javascript" src="${contentPath}scripts/common/common.js"></script>
+	<!-- JS-Code -->
+	<!-- 	no net -->
+   <link rel="stylesheet" type="text/css" href="${contentPath}statics/style/common.css">
+   <link rel="stylesheet" type="text/css" href="${contentPath}statics/style/etw.css">
+	
+	<script type="text/javascript" src="${contentPath}statics/style/etw.js"></script>
+	
+<!-- 	start -->
+	<script type="text/javascript">
+		if(typeof zuiMain == 'undefined'){
+			zuiMain = {};
+		}
+		zuiMain.contentPath = '${contentPath}';
+		zuiMain.env = '${didongEnv}';
+		zuiMain.deviceType = '${isPcBrower}';
+	</script>
+</#macro>

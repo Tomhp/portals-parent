@@ -1,0 +1,212 @@
+<#include "/common/com-page.html" />
+<div class="pd_15">
+	<!-- top-start -->
+	<div class="wd_b_100 udf_h_50 bdr_bm_dddddd tab_head_panel">
+		<div class="ft_lt bdr_lt_88B7E0 pd_l10 ln_heg_15 mg_tp_12 text_size_14">
+			餐桌列表
+		</div>
+		<div class="ft_rg text_size_12">
+			<ul class="dyst_ul_imblk">
+			<#if '${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' != null && '${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' != '' && '${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' != '普通用户'>
+				<li>
+					<div class="bdr_09c bkg_09c clr_wte butn hv_pnt" onclick="openSaveUpdateSysWin('save')">
+						<a class="dspy_blok frame_icon_all"></a>
+						<span class="mg_lt_3">新增餐桌</span>
+					</div>
+				</li>
+				</#if>
+				<li>
+					<div class="bdr_dddddd bkg_F7F7F7 butn hv_pnt" onclick="loadTableDataListStart()">
+						<a class="dspy_blok frame_icon_all refrshicon"></a>
+						<span class="mg_lt_3">刷新</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- top-end -->
+	
+	<!-- search-start -->
+	<div class="wd_b_100 udf_h_50 tab_frm_panel">
+		<form class="tableSearchForm">
+		<div class="sxbs_udf_ipt_div mg_tp_15 bdr_ipt ft_lt">
+			<input type="text" placeholder="输入餐桌号" name="tableCode" class="udf_w_100" />
+		</div>
+<!-- 		<div class="sxbs_udf_ipt_div mg_tp_15 bdr_ipt ft_lt mg_lt_10"> -->
+			<select  id="selectStatu" name="tableStatus" class="sxbs_udf_ipt_div mg_tp_15 bdr_ipt ft_lt mg_lt_10">
+			    <option selected="selected" value="">--请选择状态--</option>
+				<option value="0">使用中</option>              
+				<option value="1">未使用</option>             
+			</select>
+<!-- 		</div> -->
+
+		<div class="ft_lt mg_lt_10 mg_tp_15">
+			<a onclick="loadTableDataListStart()" class="sxbs_udf_butn_a" href="javascript:void(0);">查询</a>
+		</div>
+		<div class="ft_lt mg_lt_10 mg_tp_15">
+			<a onclick="refreshTableDataList('tableSearchForm')" 
+				class="sxbs_udf_butn_a" href="javascript:void(0);">重置</a>
+		</div>
+		</form>
+	</div>
+	<!-- search-start -->
+	
+	<!-- list-start -->
+	<div class="wd_b_100 mg_tp_0 data_list_div" style="">
+		<div class="data_list_one wd_b_100">
+			<table class="data_list_tab wd_b_100 tabhvr tableTableList" over-x="false">
+				<thead>
+					<tr>
+						<th width="30" name='checkbox' single='false'>
+							<div class="small_icon_all unchecked" 
+								onclick="isSelectAll('sysProdTableList', this)"></div>
+						</th>
+						<th width="100" name='id'hidden="true">
+							<div>ID</div>
+						</th>
+						<th width="200" name='tableCode'>
+							<div>餐桌号</div>
+						</th>
+						<th width="200" name='tableSize'>
+							<div>餐桌容量</div>
+						</th>
+						<th width="200" name='tableStatus' functName='showTableStatueDel'>
+							<div>餐桌状态</div>
+						</th>
+						<th name='zuiOper' 
+							operarry='write[writeOpters, 修改, setFuncitonIsShow, true]||remove[removeOpter, 删除, setFuncitonIsShow, true]'>
+							<div>操作</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+		<!-- footbar-start tabfootclsfot -->
+		<div class="bkg_f5f6fa tabfootcls tabfotsm">
+			
+			<!-- left-pages-start -->
+			<div class="ft_rg tableParent">
+				<@zui_common_page></@zui_common_page>
+			</div>
+			<!-- left-pages-end -->
+		</div>
+		<!-- footbar-end -->
+	</div>
+</div>
+<script type="text/javascript">
+	// 加载数据
+	function loadTableDataListStart() {
+		loadTableDataList('tableTableList', '/table/tableList?limit=8', 'tableParent', 'tableSearchForm');
+	}
+	loadTableDataListStart();
+	//前台展示餐桌状态 0 代表‘使用中’ 在前台展示为 就餐中 ；1 ——>空闲中 
+	function showTableStatueDel(value,recode){
+		if(value == 0){
+			return "<font color='red'>使用中</font>";
+		}else if(value == 1){
+			return "<font color='green'>空闲中</font>";
+		}
+	}
+	
+	// 操作一栏示例
+	function writeOpters(content) {
+		var record = eval('(' + content + ')');
+		openSaveUpdateSysWin('save', record.tableCode);
+		return null;
+	}	
+	// 删除
+	function removeOpter(content) {
+		
+		var record = eval('(' + content + ')');
+		var tableCode = record.tableCode;
+		$.ajax({
+			type: 'POST',
+			url: 'table/delTableByCode',
+			processData: true,
+			data: {
+				'tableCode': tableCode
+			},
+			success: function(callData) {
+				var json = eval('(' + callData + ')');
+				if(json && json.resultFlag) {
+					alert('操作成功');
+					// 刷新数据
+					loadTableDataListStart();
+				}
+				else {
+					alert(json.message);
+				}
+			},
+			error: function() {
+				showTipWin(false, 'URL请求失败！'+reqUrl);
+			}
+		});
+	}
+	
+	// 权限控制是否要显示隐藏
+	function setFuncitonIsShow() {
+		if('${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' == '普通用户') {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	// 新增和修改餐桌信息
+	function openSaveUpdateSysWin(type,tableCode) {
+		if(!tableCode) {
+			tableCode = '';
+		}
+		Etw.Msg.show({
+			title: '餐桌信息操作',
+			width: 350,
+			height: 300,
+			isHaveMask: true,
+			type: 'nav',
+			skin: 'gray',
+			reqUrl: 'table/addOrUpdateTableIndex?tableCode=' + tableCode
+			,quedingFn: opterSaveUpdateSysWin
+		});
+	}
+	
+	// 响应新增系统信息
+	function opterSaveUpdateSysWin() {
+		// 获取标识
+		var tableCode = $("#tableCode").val();
+		var tableSize = $("#tableSize").val();
+		var tableStatus =$("#selectStatus").val();
+		$.ajax({
+			type: 'POST',
+			url: 'table/addOrUpdateTable',
+			processData: true,
+			data: {
+				
+				'tableCode': tableCode,
+				'tableSize': tableSize,
+				'tableStatus': tableStatus
+
+		
+			},
+			success: function(callData) {
+				var json = eval('(' + callData + ')');
+				if(json && json.resultFlag) {
+					Etw.Controller.closeEtwAmong(Etw.type);
+					Etw.Msg.alert('提示', '操作成功', function() {
+						// 刷新数据
+						loadTableDataListStart();
+						Etw.Controller.closeEtwAmong(Etw.type);
+					});
+				}
+				else {
+					Etw.Msg.alert('提示', json.message);
+				}
+			},
+			error: function() {
+				showTipWin(false, 'URL请求失败！'+reqUrl);
+			}
+		});
+	}
+</script>
+
+

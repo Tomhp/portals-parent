@@ -1,0 +1,224 @@
+<#include "/common/com-page.html" />
+<div class="pd_15">
+	<!-- top-start -->
+	<div class="wd_b_100 udf_h_50 bdr_bm_dddddd tab_head_panel">
+		<div class="ft_lt bdr_lt_88B7E0 pd_l10 ln_heg_15 mg_tp_12 text_size_14">
+			商品列表
+		</div>
+		<div class="ft_rg text_size_12">
+			<ul class="dyst_ul_imblk">
+			<#if '${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' != null && '${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' != '' && '${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' != '普通用户'>
+				<li>
+					<div class="bdr_09c bkg_09c clr_wte butn hv_pnt" onclick="openSaveUpdateSysWin('save')">
+						<a class="dspy_blok frame_icon_all"></a>
+						<span class="mg_lt_3">新增商品</span>
+					</div>
+				</li>
+				</#if>
+				<li>
+					<div class="bdr_dddddd bkg_F7F7F7 butn hv_pnt" onclick="loadTableDataListStart()">
+						<a class="dspy_blok frame_icon_all refrshicon"></a>
+						<span class="mg_lt_3">刷新</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- top-end -->
+	
+	<!-- search-start -->
+	<div class="wd_b_100 udf_h_50 tab_frm_panel">
+		<form class="goodsSearchForm">
+		<div class="sxbs_udf_ipt_div mg_tp_15 bdr_ipt ft_lt">
+			<input type="text" placeholder="输入商品名称" name="goodsName" class="udf_w_100" />
+		</div>
+<!-- 		<div class="sxbs_udf_ipt_div mg_tp_15 bdr_ipt ft_lt mg_lt_10"> -->
+			<select  id="selectType" name="goodsType" class="sxbs_udf_ipt_div mg_tp_15 bdr_ipt ft_lt mg_lt_10">
+			    <option selected="selected" value="">--请选择商品类型--</option>
+				<option value="热菜">热菜</option>              
+				<option value="冷菜">冷菜</option>             
+				<option value="汤类">汤类</option>
+				<option value="酒水">酒水</option>
+			</select>
+<!-- 		</div> -->
+
+		<div class="ft_lt mg_lt_10 mg_tp_15">
+			<a onclick="loadTableDataListStart()" class="sxbs_udf_butn_a" href="javascript:void(0);">查询</a>
+		</div>
+		<div class="ft_lt mg_lt_10 mg_tp_15">
+			<a onclick="refreshTableDataList('goodsSearchForm')" 
+				class="sxbs_udf_butn_a" href="javascript:void(0);">重置</a>
+		</div>
+		</form>
+	</div>
+	<!-- search-start -->
+	
+	<!-- list-start -->
+	<div class="wd_b_100 mg_tp_0 data_list_div" style="">
+		<div class="data_list_one wd_b_100">
+			<table class="data_list_tab wd_b_100 tabhvr goodsTableList" over-x="false">
+				<thead>
+					<tr>
+						<th width="30" name='checkbox' single='true'>
+							<div class="small_icon_all unchecked" 
+								onclick="isSelectAll('goodsTableList', this)"></div>
+						</th>
+						<th width="100" name='id'hidden="true">
+							<div>ID</div>
+						</th>
+						<th width="150" name='goodsCode'>
+							<div>商品编码</div>
+						</th>
+						<th width="200" name='goodsName'>
+							<div>商品名称</div>
+						</th>
+						<th width="200" name='goodsType'>
+							<div>商品分类</div>
+						</th>
+						<th width="300" name='goodsDescribe'  prompt='getActPromt'>
+							<div>商品介绍</div>
+						</th>
+						<th width="150" name='goodsPrice' >
+							<div>价格</div>
+						</th>
+						
+						<th name='zuiOper' 
+							operarry='write[writeOpters, 修改, setFuncitonIsShow, true]||remove[removeOpter, 删除, setFuncitonIsShow, true]'>
+							<div>操作</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+		<!-- footbar-start tabfootclsfot -->
+		<div class="bkg_f5f6fa tabfootcls tabfotsm">
+			
+			<!-- left-pages-start -->
+			<div class="ft_rg goodsParent">
+				<@zui_common_page></@zui_common_page>
+			</div>
+			<!-- left-pages-end -->
+		</div>
+		<!-- footbar-end -->
+	</div>
+</div>
+<script type="text/javascript">
+	// 加载数据
+	function loadTableDataListStart() {
+		loadTableDataList('goodsTableList', '/goods/goodsList?limit=8', 'goodsParent', 'goodsSearchForm');
+	}
+	loadTableDataListStart();
+	
+ 	function getActPromt(value, record) {
+ 		return record.goodsDescribe;
+ 	}
+	
+	// 操作一栏示例
+	function writeOpters(content) {
+		var record = eval('(' + content + ')');
+		openSaveUpdateSysWin('save', record.goodsCode);
+		return null;
+	}	
+	// 删除
+	function removeOpter(content) {
+		
+		
+		
+		var record = eval('(' + content + ')');
+		var goodsCode = record.goodsCode;
+		$.ajax({
+			type: 'POST',
+			url: 'goods/delGoodsByCode',
+			processData: true,
+			data: {
+				'goodsCode': goodsCode
+			},
+			success: function(callData) {
+				var json = eval('(' + callData + ')');
+				if(json && json.resultFlag) {
+					alert('操作成功');
+					// 刷新数据
+					loadTableDataListStart();
+				}
+				else {
+					alert(json.message);
+				}
+			},
+			error: function() {
+				showTipWin(false, 'URL请求失败！'+reqUrl);
+			}
+		});
+	}
+	
+	// 权限控制是否要显示隐藏
+	function setFuncitonIsShow() {
+		if('${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' == '普通用户') {
+			return false;
+		}
+		return true;
+
+	}
+	
+	
+	// 新增和修改商品信息
+	function openSaveUpdateSysWin(type,goodsCode) {
+		if(!goodsCode) {
+			goodsCode = '';
+		}
+		Etw.Msg.show({
+			title: '商品信息操作',
+			width: 350,
+			height: 250,
+			isHaveMask: true,
+			type: 'nav',
+			skin: 'gray',
+			reqUrl: 'goods/addOrUpdateIndex?goodsCode=' + goodsCode
+			,quedingFn: opterSaveUpdateSysWin
+		});
+	}
+	
+	// 响应新增或是修改员工信息
+	function opterSaveUpdateSysWin() {
+		// 获取标识
+		var goodsCode = $("#goodsCode").val();
+		var goodsName = $("#goodsName").val();
+		var goodsType = $("#selectGoodsType").val();
+		var goodsPrice =$("#goodsPrice").val();
+		var goodsDescribe = $("#goodsDescribe").val();
+		$.ajax({
+			type: 'POST',
+			url: 'goods/addOrUpdateGoods',
+			processData: true,
+			data: {
+				
+				'goodsCode': goodsCode,
+				'goodsName': goodsName,	
+				'goodsType': goodsType,
+				'goodsPrice': goodsPrice,
+				'goodsDescribe': goodsDescribe
+
+		
+			},
+			success: function(callData) {
+				var json = eval('(' + callData + ')');
+				if(json && json.resultFlag) {
+					Etw.Controller.closeEtwAmong(Etw.type);
+					Etw.Msg.alert('提示', '操作成功', function() {
+						// 刷新数据
+						loadTableDataListStart();
+						Etw.Controller.closeEtwAmong(Etw.type);
+					});
+				}
+				else {
+					Etw.Msg.alert('提示', json.message);
+				}
+			},
+			error: function() {
+				showTipWin(false, 'URL请求失败！'+reqUrl);
+			}
+		});
+	}
+</script>
+
+

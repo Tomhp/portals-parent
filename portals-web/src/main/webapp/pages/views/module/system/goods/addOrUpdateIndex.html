@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+	</head>
+	<body>
+		<form>
+              <br>
+				<br>
+				<tr>
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品名称：
+						<#if qryGoods.goodsName ??>
+							<input type="text" id="goodsName" class="udf_w_150" value="${qryGoods.goodsName}">
+						<#else>
+							<input type="text" id="goodsName" class="udf_w_150"></td>
+						</#if>
+						
+				</tr>
+				<br>
+				<br>
+				<tr>
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品类型：
+						<select id="selectGoodsType" name="goodsType" class="udf_w_150">
+						    <option selected="selected" value="">--请选择类型--</option>
+							<option value="热菜" class="recai">热菜</option>              
+							<option value="冷菜" class="lengcai">冷菜</option>             
+							<option value="汤类" class="tanglei">汤类</option>             
+							<option value="酒水" class="jiushui">酒水</option>             
+						</select>
+						
+						<#if qryGoods.goodsType ??>
+							<input type="hidden" id="goodsTypeVal" class="udf_w_150" value="${qryGoods.goodsType}">
+						<#else>
+							<input type="hidden" id="goodsTypeVal" class="udf_w_150" value=""></td>
+						</#if>
+				</tr>
+	            <br>
+				<br>
+					<tr>
+					<td>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品价格：
+						<#if qryGoods.goodsPrice ??>
+							<input type="text" id="goodsPrice" class="udf_w_150" value="${qryGoods.goodsPrice}">
+						<#else>
+							<input type="text" id="goodsPrice" class="udf_w_150"></td>
+						</#if>
+					</td>
+				</tr>
+				<br>
+				<br>
+				<tr>
+					<td>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品介绍：
+						<#if qryGoods.goodsDescribe ??>
+							<input type="text" id="goodsDescribe" class="udf_w_150" value="${qryGoods.goodsDescribe}">
+						<#else>
+							<input type="text" id="goodsDescribe" class="udf_w_150"></td>
+						</#if>
+					</td>
+				</tr>
+<!-- 			</table> -->
+			<!-- 标识，用于区分是新增、修改 -->
+			<#if qryGoods.goodsCode ??>
+				<input type="hidden" id="goodsCode" value="${qryGoods.goodsCode}">
+			<#else>
+				<input type="hidden" id="goodsCode" value="" />
+			</#if>
+		</form>
+	</body>
+</html>
+<script type="text/javascript">
+	var goodsTypeVal = $("#goodsTypeVal").val();
+	if(goodsTypeVal != '') {
+		$("#selectGoodsType").find("option[value='"+goodsTypeVal+"']").attr("selected",true);
+	}
+	
+</script>
+

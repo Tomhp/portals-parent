@@ -1,0 +1,196 @@
+<#include "/common/com-page.html" />
+<div class="pd_15">
+	<!-- top-start -->
+	<div class="wd_b_100 udf_h_50 bdr_bm_dddddd tab_head_panel">
+		<div class="ft_lt bdr_lt_88B7E0 pd_l10 ln_heg_15 mg_tp_12 text_size_14">
+			用户列表
+		</div>
+		<div class="ft_rg text_size_12">
+			<ul class="dyst_ul_imblk">
+				<li>
+					<div class="bdr_09c bkg_09c clr_wte butn hv_pnt" onclick="openSaveUpdateUserWin('save')">
+						<a class="dspy_blok frame_icon_all"></a>
+						<span class="mg_lt_3">新增用户</span>
+					</div>
+				</li>
+				<li>
+					<div class="bdr_dddddd bkg_F7F7F7 butn hv_pnt" onclick="loadTableDataListStart()">
+						<a class="dspy_blok frame_icon_all refrshicon"></a>
+						<span class="mg_lt_3">刷新</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- top-end -->
+	
+	<!-- search-start -->
+	<div class="wd_b_100 udf_h_50 tab_frm_panel">
+		<form class="userSearchForm">
+		<div class="sxbs_udf_ipt_div mg_tp_15 bdr_ipt ft_lt">
+			<input type="text" placeholder="输入用户账号" name="usernum" class="udf_w_100" />
+		</div>
+
+		<div class="ft_lt mg_lt_10 mg_tp_15">
+			<a onclick="loadTableDataListStart()" class="sxbs_udf_butn_a" href="javascript:void(0);">查询</a>
+		</div>
+		<div class="ft_lt mg_lt_10 mg_tp_15">
+			<a onclick="refreshTableDataList('userSearchForm')" 
+				class="sxbs_udf_butn_a" href="javascript:void(0);">重置</a>
+		</div>
+		</form>
+	</div>
+	<!-- search-start -->
+	
+	<!-- list-start -->
+	<div class="wd_b_100 mg_tp_0 data_list_div" style="">
+		<div class="data_list_one wd_b_100">
+			<table class="data_list_tab wd_b_100 tabhvr userTableList" over-x="false">
+				<thead>
+					<tr>
+						<th width="30" name='checkbox' single='false'>
+							<div class="small_icon_all unchecked" 
+								onclick="isSelectAll('userTableList', this)"></div>
+						</th>
+						<th width="200" name='id'>
+							<div>序号</div>
+						</th>
+						<th width="300" name='usernum' >
+							<div>用户账号</div>
+						</th>
+<!-- 						<th width="400" name='userpwd' > -->
+<!-- 							<div>登录密码</div> -->
+<!-- 						</th> -->
+						<th width="300" name='usertype'>
+							<div>用户角色</div>
+						</th>
+						<th name='zuiOper' 
+							operarry='write[writeOpters, 修改, setFuncitonIsShow, true]||remove[removeOpter, 删除, true, true]'>
+							<div>操作</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+		<!-- footbar-start tabfootclsfot -->
+		<div class="bkg_f5f6fa tabfootcls tabfotsm">
+			
+			<!-- left-pages-start -->
+			<div class="ft_rg userParent">
+				<@zui_common_page></@zui_common_page>
+			</div>
+			<!-- left-pages-end -->
+		</div>
+		<!-- footbar-end -->
+	</div>
+</div>
+<script type="text/javascript">
+	// 加载数据
+	function loadTableDataListStart() {
+		loadTableDataList('userTableList', 'user/userList?limit=8', 'userParent', 'userSearchForm');
+	}
+	loadTableDataListStart();
+
+	
+	// 操作一栏示例
+	function writeOpters(content) {
+		var record = eval('(' + content + ')');
+		openSaveUpdateUserWin('save', record.id);
+		return null;
+	}
+
+	
+	// 删除
+	function removeOpter(content) {
+		var record = eval('(' + content + ')');
+		var usernum = record.usernum;
+		$.ajax({
+			type: 'POST',
+			url: 'user/deleteUser',
+			processData: true,
+			data: {
+				'usernum': usernum
+			},
+			success: function(callData) {
+				var json = eval('(' + callData + ')');
+				if(json && json.resultFlag) {
+					//alert('操作成功');
+					showTipWin(true, '操作成功！');
+					// 刷新数据
+					loadTableDataListStart();
+				}
+				else {
+					//alert(json.message);
+					showTipWin(true, json.message);
+				}
+			},
+			error: function() {
+				showTipWin(false, 'URL请求失败！'+reqUrl);
+			}
+		});
+	}
+	
+	// 权限控制是否要显示隐藏
+	function setFuncitonIsShow() {
+		return true;
+	}
+	
+	
+	// 跳转至新增或是修改用户信息页面 
+	function openSaveUpdateUserWin(type, id) {
+		if(!id) {
+			id = '';
+		}
+		Etw.Msg.show({
+			title: '用户信息操作',
+			width: 300,
+			height: 200,
+			isHaveMask: true,
+			type: 'nav',
+			skin: 'gray',
+			reqUrl: 'user/addOrUpdateUserIndex?id=' + id
+			,quedingFn: opterSaveUpdateUserWin
+		});
+	}
+	
+	// 响应新增或是修改用户信息
+	function opterSaveUpdateUserWin() {
+		// 获取标识
+		var id = $("#id").val();
+		var usernum = $("#usernum").val();
+		var userpwd = $("#userpwd").val();
+		var usertype =$("#selectType").val();
+		$.ajax({
+			type: 'POST',
+			url: 'user/addOrUpdateUser',
+			processData: true,
+			data: {
+				'id':id,
+				'usernum': usernum,
+				'userpwd': userpwd,
+				'usertype': usertype
+			},
+			success: function(callData) {
+// 				alert(callData);
+				var json = eval('(' + callData + ')');
+				if(json && json.resultFlag) {
+					Etw.Controller.closeEtwAmong(Etw.type);
+					Etw.Msg.alert('提示', '操作成功', function() {
+						// 刷新数据
+						loadTableDataListStart();
+						Etw.Controller.closeEtwAmong(Etw.type);
+					});
+				}
+				else {
+					Etw.Msg.alert('提示', json.message);
+				}
+			},
+			error: function() {
+				showTipWin(false, 'URL请求失败！'+reqUrl);
+			}
+		});
+	}
+</script>
+
+

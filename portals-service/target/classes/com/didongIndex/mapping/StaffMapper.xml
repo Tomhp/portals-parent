@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.didongIndex.po.Staff">
+	<resultMap type="com.didongIndex.po.Staff" id="BaseResultMap">
+		<result column="id" property="id" />
+		<result column="staffCode" property="staffCode" jdbcType="INTEGER" />
+		<result column="staffName" property="staffName" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="position" property="position" jdbcType="VARCHAR" />
+		<result column="contactWay" property="contactWay" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		staffCode,staffName,sex,position,contactWay
+	</sql>
+
+	<!-- 查询最大的员工号 -->
+	<select id="getMaxCode" resultType="String">
+		select max(staffCode) from
+		staff_table
+	</select>
+	<!-- 通过Code查询 -->
+	<select id="queryStaffByCode" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from staff_table
+		where staffCode=#{staffCode,jdbcType=INTEGER}
+	</select>
+
+
+	<!-- 新增 -->
+	<insert id="insertSelective" parameterType="com.didongIndex.po.Staff">
+		insert into staff_table
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+
+			<if test="staffCode != null">
+				staffCode,
+			</if>
+			<if test="staffName != null">
+				staffName,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="position != null">
+				position,
+			</if>
+			<if test="contactWay !=null">
+				contactWay
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+
+			<if test="staffCode != null">
+				#{staffCode,jdbcType=INTEGER},
+			</if>
+			<if test="staffName != null">
+				#{staffName,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null">
+				#{position,jdbcType=VARCHAR},
+			</if>
+			<if test="contactWay !=null">
+				#{contactWay,jdbcType=VARCHAR}
+			</if>
+		</trim>
+
+	</insert>
+	<sql id="queryWhere">
+		<where>
+			<if test="staffCode != null and staffCode != ''"> AND s.staffCode = #{staffCode}</if>
+			<if test="staffName != null and staffName != ''"> AND s.staffName = #{staffName}</if>
+			<if test="position != null and position != ''"> AND s.position = #{position}</if>
+		</where>
+	</sql>
+	<!-- 查询或是员工列表展示 -->
+	<select id="query" resultMap="BaseResultMap" parameterType="com.didongIndex.po.Staff">
+		select staffCode,staffName,sex,position,contactWay from staff_table s
+		<include refid="queryWhere"></include>
+		order by position desc
+	</select>
+	
+<select id="getCount" resultType="Long" parameterType="com.didongIndex.po.Staff">
+		SELECT COUNT(s.id) FROM staff_table s
+		<include refid="queryWhere"/>
+	</select>
+	<!-- 删除 -->
+	<delete id="delByCode" parameterType="java.lang.Integer">
+		delete from staff_table
+		where staffCode=#{staffCode,jdbcType=INTEGER}
+
+	</delete>
+	<!-- 批量删除 -->
+<!-- 	<DELETE ID="DELETEBATCH" PARAMETERTYPE="MAP"> -->
+<!-- 		DELETE FROM STAFF_TABLE WHERE STAFFCODE IN -->
+<!-- 		<FOREACH ITEM="ITEM" INDEX="INDEX" COLLECTION="CODES" OPEN="(" -->
+<!-- 			SEPARATOR="," CLOSE=")"> -->
+<!-- 			#{ITEM} -->
+
+<!-- 		</FOREACH> -->
+<!-- 	</DELETE> -->
+
+	<!-- 更新 -->
+	<update id="updateByCode" parameterType="com.didongIndex.po.Staff">
+		update staff_table
+		set
+		staffName = #{staffName,jdbcType=VARCHAR},
+		sex =
+		#{sex,jdbcType=VARCHAR},
+		position = #{position,jdbcType=VARCHAR},
+		contactWay = #{contactWay,jdbcType=VARCHAR}
+		where staffCode =
+		#{staffCode,jdbcType=INTEGER}
+	</update>
+</mapper>

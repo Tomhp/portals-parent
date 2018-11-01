@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.didongIndex.po.User">
+
+	<resultMap type="com.didongIndex.po.User" id="BaseResultMap">
+		<result column="ID" property="id" />
+		<result column="userNum" property="usernum" jdbcType="VARCHAR" />
+		<result column="userPwd" property="userpwd" jdbcType="VARCHAR" />
+		<result column="userType" property="usertype" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Colum_List">
+		ID,userNum,userPwd,userType
+	</sql>
+	
+	<sql id="queryWhere">
+		<where>
+			<if test="usernum !=null and usernum !=''"> AND u.userNum = #{usernum}</if>
+		</where>
+	</sql>
+
+	<!-- 获取用户信息 -->
+	<select id="query" resultMap="BaseResultMap" parameterType="com.didongIndex.po.User">
+		select ID, userNum,userPwd,userType from user_table u
+		<include refid="queryWhere"></include>
+	</select>
+	
+	<select id="getCount" resultType="Long" parameterType="com.didongIndex.po.User">
+		SELECT COUNT(u.ID) FROM user_table u
+		<include refid="queryWhere"/>
+	</select>
+
+	<!-- 添加用户 -->
+	<insert id="addUser" parameterType="com.didongIndex.po.User">
+		insert user_table
+		(ID,userNum,userPwd,userType) values
+		(#{id,jdbcType=INTEGER},
+		#{usernum,jdbcType=VARCHAR},
+		#{userpwd,jdbcType=VARCHAR},
+		#{usertype,jdbcType=VARCHAR}
+		)
+	</insert>
+	<!-- 查询最大的用户账号 -->
+	<select id="getMaxNum" resultType="String">
+		select max(userNum) from user_table
+	</select>
+
+	<!-- 修改用户信息 -->
+	<update id="updateUser" parameterType="com.didongIndex.po.User">
+		update user_table set
+		userNum =#{usernum,jdbcType=VARCHAR},
+		userPwd = #{userpwd,jdbcType=VARCHAR},
+		userType = #{usertype,jdbcType=VARCHAR}
+		where ID= #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 通过用户账号查询 -->
+	<select id="queryByNum" resultMap="BaseResultMap" parameterType="com.didongIndex.po.User">
+		select
+		<include refid="Base_Colum_List" />
+		from user_table
+		where userNum = #{usernum,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 通过id查询 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Colum_List" />
+		from user_table
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+
+	<!-- 删除 -->
+	<delete id="delUser" parameterType="com.didongIndex.po.User">
+		delete from user_table where
+		userNum = #{usernum,jdbcType=VARCHAR}
+	</delete>
+</mapper>
+

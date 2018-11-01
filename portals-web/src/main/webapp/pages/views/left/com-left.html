@@ -1,0 +1,121 @@
+<#macro zui_common_left>
+<!-- zuiLefter-start -->
+<div class="zuiLefter bkg_293038 udf_w_180 clr_wte">
+	<div
+		class="bkg_394555 udf_h_35 hv_pnt icon-unfold clr_aeb9c2 tl_ct ln_heg_35">
+		<a class="dspy_blok frame_icon_all dpnoe mg_tp_13"></a>
+	</div>
+	<!-- left-menu-start -->
+	<#if '${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' != null && '${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' != '' && '${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' != '普通用户'>
+	<div class="lefterMenu mg_tp_1">
+		<div>
+			<a id="menhuManager"
+				class="menuOneLevel dspy_blok bdr_bm_414d5c bkg_22282E udf_h_40 ln_heg_40 hv_pnt wd_b_100 menuHover">
+				<span
+				class="menuOneIcon dspy_blok frame_icon_all sh_icon mg_lt_15 mg_tp_15"></span>
+				<span class="menu_text text_size_14">员工管理</span>
+			</a>
+			<ul id="menhuManagerMenuList" class="wd_b_100 menuChilder">
+				<li><a id="staffList"
+					class="menunode dspy_blok bkg_22282E udf_h_40 ln_heg_40 hv_pnt wd_b_100"
+					action="staff/index"> <span
+						class="text_size_14 menu_text">员工列表</span>
+				</a></li>
+
+			</ul>
+		</div>
+	</div>
+	</#if>
+<!-- left-menu-start -->
+	<div class="lefterMenu mg_tp_2">
+		<div>
+			<a id="menhuManager1"
+				class="menuOneLevel dspy_blok bdr_bm_414d5c bkg_22282E udf_h_40 ln_heg_40 hv_pnt wd_b_100 menuHover">
+				<span
+				class="menuOneIcon dspy_blok frame_icon_all sh_icon mg_lt_15 mg_tp_15"></span>
+				<span class="menu_text text_size_14">餐桌管理</span>
+			</a>
+			<ul id="menhuManager1MenuList" class="wd_b_100 menuChilder">
+				<li><a id="tableList"
+					class="menunode dspy_blok bkg_22282E udf_h_40 ln_heg_40 hv_pnt wd_b_100"
+					action="table/tableIndex"> <span
+						class="text_size_14 menu_text">餐桌信息</span>
+				</a></li>
+
+			</ul>
+		</div>
+	</div>
+<!-- left-menu-start -->
+
+	<div class="lefterMenu mg_tp_3">
+		<div>
+			<a id="menhuManager2"
+				class="menuOneLevel dspy_blok bdr_bm_414d5c bkg_22282E udf_h_40 ln_heg_40 hv_pnt wd_b_100 menuHover">
+				<span
+				class="menuOneIcon dspy_blok frame_icon_all sh_icon mg_lt_15 mg_tp_15"></span>
+				<span class="menu_text text_size_14">商品管理</span>
+			</a>
+			<ul id="menhuManager2MenuList" class="wd_b_100 menuChilder">
+				<li><a id="goodsList"
+					class="menunode dspy_blok bkg_22282E udf_h_40 ln_heg_40 hv_pnt wd_b_100"
+					action="goods/goodsIndex"> <span
+						class="text_size_14 menu_text">商品信息</span>
+				</a></li>
+
+			</ul>
+		</div>
+	</div>
+
+<!-- left-menu-start -->
+
+	<div class="lefterMenu mg_tp_5">
+		<div>
+			<a id="menhuManager3"
+				class="menuOneLevel dspy_blok bdr_bm_414d5c bkg_22282E udf_h_40 ln_heg_40 hv_pnt wd_b_100 menuHover">
+				<span
+				class="menuOneIcon dspy_blok frame_icon_all sh_icon mg_lt_15 mg_tp_15"></span>
+				<span class="menu_text text_size_14">订单管理</span>
+			</a>
+			<ul id="menhuManager3MenuList" class="wd_b_100 menuChilder">
+				<li><a id="orderList"
+					class="menunode dspy_blok bkg_22282E udf_h_40 ln_heg_40 hv_pnt wd_b_100"
+					action="order/orderIndex"> <span
+						class="text_size_14 menu_text">顾客结账</span>
+				</a></li>
+             <li><a id="histotyOrder"
+					class="menunode dspy_blok bkg_22282E udf_h_40 ln_heg_40 hv_pnt wd_b_100"
+					action="order/histotyOrderIndex"> <span
+						class="text_size_14 menu_text">历史订单</span>
+				</a></li>
+			</ul>
+			
+		</div>
+	</div>
+
+
+
+	<!-- left-menu-start -->
+<#if '${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' != null && '${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' != '' && '${DDMNG_USER_LOGIN_SESSION_KEY.usertype}' != '普通用户'>
+	<div class="lefterMenu mg_tp_system">
+		<div>
+			<a id="menhuManager4"
+				class="menuOneLevel dspy_blok bdr_bm_414d5c bkg_22282E udf_h_40 ln_heg_40 hv_pnt wd_b_100 menuHover">
+				<span
+				class="menuOneIcon dspy_blok frame_icon_all sh_icon mg_lt_15 mg_tp_15"></span>
+				<span class="menu_text text_size_14">系统管理</span>
+			</a>
+			<ul id="menhuManager4MenuList" class="wd_b_100 menuChilder">
+				<li><a id="userList"
+					class="menunode dspy_blok bkg_22282E udf_h_40 ln_heg_40 hv_pnt wd_b_100"
+					action="user/userIndex"> <span
+						class="text_size_14 menu_text">用户列表</span>
+				</a></li>
+
+			</ul>
+		</div>
+	</div>
+</#if>
+
+</div>
+<!-- zuiLefter-end -->
+</#macro>

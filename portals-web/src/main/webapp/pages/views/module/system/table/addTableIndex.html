@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+	</head>
+	<body>
+		<form>
+<!-- 			<table align="center"> -->
+              <br>
+				<br>
+				<tr>
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;餐桌容量：
+						<#if qryTable.tableSize ??>
+							<input type="text" id="tableSize" class="udf_w_150" value="${qryTable.tableSize}">
+						<#else>
+							<input type="text" id="tableSize" class="udf_w_150"></td>
+						</#if>
+						
+				</tr>
+				<br>
+				<br>
+				<tr>
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;餐桌状态：
+						<select id="selectStatus" name="tableStatus" class="udf_w_150">
+						    <option selected="selected" value="">--请选择状态--</option>
+							<option value="0" >使用中</option>              
+							<option value="1" >未使用</option>             
+						</select>
+						
+						<#if qryTable.tableStatus ??>
+							<input type="hidden" id="tableStatusVal" class="udf_w_150" value="${qryTable.tableStatus}">
+						<#else>
+							<input type="hidden" id="tableStatusVal" class="udf_w_150" value=""></td>
+						</#if>
+				</tr>
+	            
+<!-- 			</table> -->
+			<!-- 标识，用于区分是新增、修改 -->
+			<#if qryTable.tableCode ??>
+				<input type="hidden" id="tableCode" value="${qryTable.tableCode}">
+			<#else>
+				<input type="hidden" id="tableCode" value="" />
+			</#if>
+		</form>
+	</body>
+</html>
+<script type="text/javascript">
+	var tableStatusVal = $("#tableStatusVal").val();
+	if(tableStatusVal != '') {
+		$("#selectStatus").find("option[value='"+tableStatusVal+"']").attr("selected",true);
+	}
+</script>
+

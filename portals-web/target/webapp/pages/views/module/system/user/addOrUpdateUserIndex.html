@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+</head>
+<body>
+	<form>
+		<br> <br>
+		<tr>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户账号：
+				<#if qryUser.usernum ??> <input type="text" id="usernum" class="udf_w_150" value="${qryUser.usernum}">
+			</td>
+			 <#else>
+			<input type="text" id="usernum" class="udf_w_150">
+			</td> 
+			</#if>
+
+		</tr>
+		<br>
+		<br>
+		<tr>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登录密码：
+				<#if qryUser.userpwd ??> <input type="password" id="userpwd"
+				class="udf_w_150" value="${qryUser.userpwd}">
+			</td> <#else>
+			<input type="text" id="userpwd" class="udf_w_150">
+			</td> </#if>
+
+		</tr>
+		<br> <br>
+		<tr>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户类型：
+				<select id="selectType" name="usertype" class="udf_w_150">
+					<option selected="selected" value="">--请选择类型--</option>
+					<option value="管理员">管理员</option>
+					<option value="普通用户">普通用户</option>
+			</select> <#if qryUser.usertype ??> <input type="hidden" id="typeVal"
+				class="udf_w_150" value="${qryUser.usertype}">
+			</td> <#else>
+			<input type="hidden" id="typeVal" class="udf_w_150" value="">
+			</td> </#if>
+		</tr>
+		<br> <br>
+		
+		<!-- 标识，用于区分是新增、修改 -->
+		<#if qryUser.id ??>
+		 <input type="hidden" id="id" value="${qryUser.id}">
+		  <#else> 
+		  <input type="hidden" id="id" value="" /> 
+		  </#if>
+	</form>
+</body>
+</html>
+<script type="text/javascript">
+	var typeVal = $("#typeVal").val();
+	if (typeVal != '') {
+		$("#selectType").find("option[value='" + typeVal + "']").attr("selected", true);
+
+	}
+</script>
+

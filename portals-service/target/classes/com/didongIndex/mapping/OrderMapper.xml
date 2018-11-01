@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.didongIndex.po.Order">
+	<resultMap type="com.didongIndex.po.Order" id="BaseResultMap">
+
+		<result column="tableCode" property="tableCode" jdbcType="INTEGER" />
+		<result column="orderNum" property="orderNum" jdbcType="VARCHAR" />
+		<result column="tableStatus" property="tableStatus" jdbcType="VARCHAR" />
+		<result column="sumGoodsNum" property="sumGoodsNum" jdbcType="VARCHAR" />
+		<result column="sumPrice" property="sumPrice" jdbcType="VARCHAR" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		tableCode,orderNum,tableStatus,sumGoodsNum,sumPrice
+	</sql>
+	<sql id="queryWhere">
+		<where>
+			<if test="tableCode != null and tableCode != ''"> AND a.tableCode = #{tableCode}</if>
+		</where>
+	</sql>
+	<!-- 未完成订单展示 -->
+	<select id="query" resultMap="BaseResultMap" parameterType="com.didongIndex.po.Order">
+		select * from (select tableCode,orderNum,tableStatus,sum(goodsPrice)
+		as
+		sumPrice,count(1) as sumGoodsNum from
+		order_table where
+		tableStatus='0'
+		group by tableCode,orderNum,tableStatus) a
+		<include refid="queryWhere"></include>
+	</select>
+	
+	<select id="getCount" resultType="Long" parameterType="com.didongIndex.po.Order">
+		select count(1) from (
+		select
+		tableCode,orderNum,tableStatus,sum(goodsPrice) as sumPrice,count(1)
+		as
+		sumGoodsNum from order_table where tableStatus='0'
+		group by
+		tableCode,orderNum,tableStatus) a
+		<include refid="queryWhere"></include>
+	</select>
+<!-- 	订单详情 -->
+	<select id="getOrderGoods" resultType="com.didongIndex.po.Goods"
+		parameterType="String">
+		select g.goodsName,g.goodsType,g.goodsPrice from order_table o left join
+		goods_table g on o.goodsCode=g.goodsCode where o.orderNum=#{orderNum,jdbcType=VARCHAR}
+		
+	</select>
+<!-- 	结账 -->
+	<update id="updateOrder" parameterType="String">
+	update order_table set tableStatus='1' where orderNum=#{orderNum,jdbcType=VARCHAR}
+	</update>
+<!-- 	通过订单号找到正在结账操作的餐桌号  -->
+<select id="getPayTableCode" resultType="String" parameterType="com.didongIndex.po.Goods">
+select  tableCode from order_table where orderNum=#{orderNum,jdbcType=VARCHAR} group by tableCode
+</select>
+	<!-- 历史订单展示 -->
+	<sql id="historyOrderqueryWhere">
+		<where>
+			<if test="orderNum != null and orderNum != ''"> AND b.orderNum = #{orderNum}</if>
+		</where>
+	</sql>
+	<select id="getHistoryOrder" resultMap="BaseResultMap" parameterType="com.didongIndex.po.Order">
+		select * from (select tableCode,orderNum,tableStatus,sum(goodsPrice)
+		as
+		sumPrice,count(1) as sumGoodsNum from
+		order_table where
+		tableStatus='1'
+		group by tableCode,orderNum,tableStatus) b
+		<include refid="historyOrderqueryWhere"></include>
+		order by orderNum desc
+	</select>
+	
+	<select id="getHistoryOrderCount" resultType="Long" parameterType="com.didongIndex.po.Order">
+		select count(1) from (
+		select
+		tableCode,orderNum,tableStatus,sum(goodsPrice) as sumPrice,count(1)
+		as
+		sumGoodsNum from order_table where tableStatus='1'
+		group by
+		tableCode,orderNum,tableStatus) b
+		<include refid="historyOrderqueryWhere"></include>
+	</select>
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.didongIndex.po.Table">
+
+	<resultMap type="com.didongIndex.po.Table" id="BaseResultMap">
+		<result column="tableCode" property="tableCode" jdbcType="INTEGER" />
+		<result column="tableSize" property="tableSize" jdbcType="INTEGER" />
+		<result column="tableStatus" property="tableStatus" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		tableCode,tableSize,tableStatus
+	</sql>
+
+	<!-- 查询最大的餐桌号 -->
+	<select id="getMaxTableCode" resultType="String">
+		select max(tableCode)
+		from dining_table
+	</select>
+	<!-- 通过Code查询 -->
+	<select id="queryTableByCode" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from dining_table
+		where tableCode=#{tableCode,jdbcType=INTEGER}
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insertTable" parameterType="com.didongIndex.po.Table">
+		insert into dining_table
+		(tableCode,tableSize,tableStatus)
+		values
+		(#{tableCode,jdbcType=INTEGER},
+		#{tableSize,jdbcType=INTEGER},
+		#{tableStatus,jdbcType=VARCHAR}
+
+		)
+	</insert>
+	<!-- 更新 -->
+	<update id="updateTable" parameterType="com.didongIndex.po.Table">
+		update dining_table
+		set
+		tableSize = #{tableSize,jdbcType=VARCHAR},
+		tableStatus =
+		#{tableStatus,jdbcType=VARCHAR}
+		where tableCode =
+		#{tableCode,jdbcType=INTEGER}
+	</update>
+	<sql id="queryWhere">
+		<where>
+			<if test="tableCode != null and tableCode != ''"> AND t.tableCode = #{tableCode}</if>
+			<if test="tableStatus != null and tableStatus != ''"> AND t.tableStatus = #{tableStatus}</if>
+		</where>
+	</sql>
+	<!-- 查询或是餐桌列表展示 -->
+	<select id="query" resultMap="BaseResultMap" parameterType="com.didongIndex.po.Table">
+		select tableCode,tableSize,tableStatus from dining_table t
+		<include refid="queryWhere"></include>
+		<!-- order by tableSize desc -->
+	</select>
+	<select id="getCount" resultType="Long" parameterType="com.didongIndex.po.Table">
+		SELECT COUNT(t.tableCode) FROM dining_table t
+		<include refid="queryWhere" />
+	</select>
+	<!-- 删除 -->
+	<delete id="delByCode" parameterType="java.lang.Integer">
+		delete from dining_table
+		where tableCode=#{tableCode,jdbcType=INTEGER}
+
+	</delete>
+
+	<!-- 查询正在使用的餐桌code集合 -->
+	<select id="geTableCodes" resultMap="BaseResultMap">
+		select tableCode from order_table where tableStatus='0' group by tableCode
+	</select>
+	<!-- 更新餐桌的状态 改为不可用状态 -->
+	<update id="updateTableStatus" parameterType="com.didongIndex.po.Table">
+	update dining_table set tableStatus='0' where tableCode=#{tableCode,jdbcType=INTEGER}
+	</update>
+	
+	
+	<!-- 更新餐桌的状态 改为可用状态-->
+	<update id="updateTableToCan" parameterType="String">
+	update dining_table set tableStatus='1' where tableCode=#{tableCode,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -1,0 +1,111 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<!-- 
+		描述：上海径横网络科技有限公司
+		网址：www.didong100.com
+		项目：递咚系统管理平台-门户系统-web展示层模块
+	-->
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.didong.portals</groupId>
+		<artifactId>portals-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>portals-web</artifactId>
+	<packaging>war</packaging>
+	
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/webapp</directory>
+				<filtering>true</filtering>
+				<targetPath>${project.build.directory}/webapp</targetPath>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat6-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<path>/didongPortals</path>
+					<port>8080</port>
+					<warSourceDirectory>${project.build.directory}/webapp</warSourceDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java-version}</source>
+                    <target>${java-version}</target>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<version>3.0</version>
+					<warName>didongPortals</warName>
+					<attachClasses>true</attachClasses>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java-version>1.7</java-version>
+		<java-encoding>UTF-8</java-encoding>
+	</properties>
+
+	<!-- 配置依赖工程列表-start -->
+	<dependencies>
+		
+		<!-- common-jar-start -->
+		<dependency>
+			<groupId>com.didong.portals</groupId>
+			<artifactId>portals-service</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<!-- common-jar-end -->
+
+		<!-- servlet jar begin -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- servlet jar end -->
+		
+	</dependencies>
+	<!-- 配置依赖工程列表-start -->
+	
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<public.type>classpath:env/dev/application.properties</public.type>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<public.type>classpath:env/test/application.properties</public.type>
+			</properties>
+		</profile>
+		<profile>
+			<id>product</id>
+			<properties>
+				<public.type>classpath:env/product/application.properties</public.type>
+			</properties>
+		</profile>
+	</profiles>
+	
+</project>

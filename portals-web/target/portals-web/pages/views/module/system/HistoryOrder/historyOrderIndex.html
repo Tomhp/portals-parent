@@ -1,0 +1,140 @@
+<#include "/common/com-page.html" />
+<div class="pd_15">
+	<!-- top-start -->
+	<div class="wd_b_100 udf_h_50 bdr_bm_dddddd tab_head_panel">
+		<div class="ft_lt bdr_lt_88B7E0 pd_l10 ln_heg_15 mg_tp_12 text_size_14">
+			历史订单列表
+		</div>
+		<div class="ft_rg text_size_12">
+			<ul class="dyst_ul_imblk">
+				
+				<li>
+					<div class="bdr_dddddd bkg_F7F7F7 butn hv_pnt" onclick="loadTableDataListStart()">
+						<a class="dspy_blok frame_icon_all refrshicon"></a>
+						<span class="mg_lt_3">刷新</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- top-end -->
+	
+	<!-- search-start -->
+	<div class="wd_b_100 udf_h_50 tab_frm_panel">
+		<form class="orderSearchForm">
+		<div class="sxbs_udf_ipt_div mg_tp_15 bdr_ipt ft_lt">
+			<input type="text" placeholder="输入订单号" name="orderNum" class="udf_w_100" />
+		</div>	
+
+		<div class="ft_lt mg_lt_10 mg_tp_15">
+			<a onclick="loadTableDataListStart()" class="sxbs_udf_butn_a" href="javascript:void(0);">查询</a>
+		</div>
+		<div class="ft_lt mg_lt_10 mg_tp_15">
+			<a onclick="refreshTableDataList('orderSearchForm')" 
+				class="sxbs_udf_butn_a" href="javascript:void(0);">重置</a>
+		</div>
+		</form>
+	</div>
+	<!-- search-start -->
+	
+	<!-- list-start -->
+	<div class="wd_b_100 mg_tp_0 data_list_div" style="">
+		<div class="data_list_one wd_b_100">
+			<table class="data_list_tab wd_b_100 tabhvr orderTableList" over-x="false">
+				<thead>
+					<tr>
+						<th width="30" name='checkbox' single='true'>
+							<div class="small_icon_all unchecked" 
+								onclick="isSelectAll('orderTableList', this)"></div>
+						</th>
+						<th width="100" name='id'hidden="true">
+							<div>ID</div>
+						</th>
+						<th width="150" name='tableCode'>
+							<div>桌号</div>
+						</th>
+						<th width="200" name='orderNum'>
+							<div>订单号</div>
+						</th>
+						<th width="200" name='sumGoodsNum'>
+							<div>数量</div>
+						</th>
+						<th width="300" name='sumPrice'>
+							<div>金额</div>
+						</th>
+						<th width="150" name='tableStatus' functName='showTableStatus'>
+							<div>是否结账</div>
+						</th>
+						
+						<th name='zuiOper' 
+							operarry='read[readOpters, 查看详情, setFuncitonIsShow, true]'>
+							<div>操作</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+		<!-- footbar-start tabfootclsfot -->
+		<div class="bkg_f5f6fa tabfootcls tabfotsm">
+			
+			<!-- left-pages-start -->
+			<div class="ft_rg orderParent">
+				<@zui_common_page></@zui_common_page>
+			</div>
+			<!-- left-pages-end -->
+		</div>
+		<!-- footbar-end -->
+	</div>
+</div>
+<script type="text/javascript">
+    var l_orderNum='';
+	// 加载数据
+	function loadTableDataListStart() {
+		loadTableDataList('orderTableList', '/order/historyOrderList?limit=8', 'orderParent', 'orderSearchForm');
+	}
+	loadTableDataListStart();
+	
+	function showTableStatus(value,recode){
+		if(value == 1){
+			return "<font color='red'>已结账</font>";
+	}
+	}
+	// 操作一栏示例
+	function readOpters(content) {
+		var record = eval('(' + content + ')');
+		openSaveUpdateSysWin('save', record.orderNum);
+		return null;
+	}	
+	
+	// 权限控制是否要显示隐藏
+	function setFuncitonIsShow() {
+		return true;
+	}
+	
+	
+	// 新增和修改商品信息
+	function openSaveUpdateSysWin(type,orderNum) {
+		if(!orderNum) {
+			orderNum = '';
+		}
+		l_orderNum=orderNum;
+		Etw.Msg.show({
+			title: '订单详情',
+			width: 350,
+			height: 250,
+			isHaveMask: true,
+			type: 'nav',
+			skin: 'gray',
+			reqUrl: 'order/historyOrderListIndex?orderNum=' + orderNum
+// 			,quedingFn: opterSaveUpdateSysWin
+		});
+	}
+	
+	// 
+	function opterSaveUpdateSysWin() {
+	
+	}
+</script>
+
+

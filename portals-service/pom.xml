@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<!-- 
+		描述：上海径横网络科技有限公司
+		网址：www.didong100.com
+		项目：递咚系统管理平台-门户系统-所有服务模块
+	-->
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.didong.portals</groupId>
+		<artifactId>portals-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>portals-service</artifactId>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<build>
+	   <plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+	   </plugins>
+	</build>
+	
+	<dependencies>
+	
+		<!-- load-framework-jar-start -->
+		<dependency>
+			<groupId>com.didong.manager</groupId>
+			<artifactId>manager-frame-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.didong.manager</groupId>
+			<artifactId>manager-frame-datasource</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.didong.manager</groupId>
+			<artifactId>manager-frame-email</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.didong.manager</groupId>
+			<artifactId>manager-frame-servdao</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.didong.manager</groupId>
+			<artifactId>manager-frame-springmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.didong.manager</groupId>
+			<artifactId>manager-frame-tool</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.didong.manager</groupId>
+			<artifactId>manager-frame-weixin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.didong.manager</groupId>
+			<artifactId>manager-frame-zk</artifactId>
+		</dependency>
+		<!-- load-framework-jar-start -->
+		
+	</dependencies>
+	
+</project>
